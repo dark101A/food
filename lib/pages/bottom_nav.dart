@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test1/pages/favorite_page.dart';
 import 'package:test1/pages/home_page.dart';
 
 class BottomNav extends StatefulWidget {
@@ -18,9 +19,7 @@ class _BottomNavState extends State<BottomNav> {
 
   List<Widget> bodyOptions = [
     const HomePage(),
-    const Center(
-      child: Text('Favorite page'),
-    ),
+    const FavoritePage(),
     const Center(
       child: Text('Account page'),
     )
@@ -28,8 +27,10 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Center(child: Text('Food')),
+        backgroundColor: Colors.white,
       ),
       body: bodyOptions[selectedIndex],
       drawer: const Drawer(

@@ -7,29 +7,32 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(25.0),
-            child: Image.asset('assets/images/baner.jpg',
-                height: 200, fit: BoxFit.cover),
+        body: SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25.0),
+              child: Image.asset('assets/images/baner.jpg',
+                  height: MediaQuery.of(context).size.height * 0.20,
+                  fit: BoxFit.cover),
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 32.0,
-        ),
-        Expanded(
-          child: GridView.builder(
+          SizedBox(
+            height: size.height * 0.001,
+          ),
+          GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: food.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, mainAxisSpacing: 20, crossAxisSpacing: 20),
-              itemBuilder: (context, index) =>
-                  FoodGridItem(foodItem: food[index])),
-        )
-      ],
+              itemBuilder: (context, index) => FoodGridItem(foodIndex: index))
+        ],
+      ),
     ));
   }
 }

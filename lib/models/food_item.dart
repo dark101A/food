@@ -2,26 +2,48 @@ class FoodItem {
   final String name;
   final String imgUrl;
   final double price;
+  final bool isFivorate;
 
-  FoodItem({required this.name, required this.imgUrl, required this.price});
+  FoodItem({
+    required this.name,
+    required this.imgUrl,
+    required this.price,
+    this.isFivorate = false,
+  });
+
+  FoodItem copyWith({
+    String? name,
+    String? imgUrl,
+    double? price,
+    bool? isFivorate,
+  }) {
+    return FoodItem(
+      name: name ?? this.name,
+      imgUrl: imgUrl ?? this.imgUrl,
+      price: price ?? this.price,
+      isFivorate: isFivorate ?? this.isFivorate,
+    );
+  }
 }
 
 List<FoodItem> food = [
   FoodItem(
-      name: 'Beef Burger',
-      imgUrl:
-          'https://t4.ftcdn.net/jpg/09/88/67/35/360_F_988673577_IqsqmCDffOHPCw39TBD888DCtK3Kpdq0.jpg',
-      price: 50),
+    name: 'Beef Burger',
+    imgUrl:
+        'https://t4.ftcdn.net/jpg/09/88/67/35/360_F_988673577_IqsqmCDffOHPCw39TBD888DCtK3Kpdq0.jpg',
+    price: 50,
+  ),
   FoodItem(
       name: 'Chicken Burger',
       imgUrl:
           'https://static.vecteezy.com/system/resources/previews/046/955/491/non_2x/grilled-cheeseburger-meal-icon-isolated-vector.jpg',
       price: 70),
   FoodItem(
-      name: 'cheese Burger',
-      imgUrl:
-          'https://img.freepik.com/premium-vector/cheese-burger-vector-illustration-fast-food-icon-sign-symbol_752732-84.jpg',
-      price: 80),
+    name: 'cheese Burger',
+    imgUrl:
+        'https://img.freepik.com/premium-vector/cheese-burger-vector-illustration-fast-food-icon-sign-symbol_752732-84.jpg',
+    price: 80,
+  ),
   FoodItem(
       name: 'chicken pizza',
       imgUrl:
