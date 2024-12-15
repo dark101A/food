@@ -33,13 +33,12 @@ class _FoodGridItemState extends State<FoodGridItem> {
                       onTap: () => setState(() {
                         food[widget.foodIndex] = food[widget.foodIndex]
                             .copyWith(
-                                isFivorate: !food[widget.foodIndex].isFivorate);
+                                isFivorate: !food[widget.foodIndex].isFavorite);
                       }),
                       child: Icon(
-                        food[widget.foodIndex].isFivorate
+                        food[widget.foodIndex].isFavorite
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: Colors.deepOrange,
                       ),
                     ),
                   ))
@@ -52,10 +51,10 @@ class _FoodGridItemState extends State<FoodGridItem> {
           ),
           Text(
             '\$ ${food[widget.foodIndex].price}',
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w400,
-                color: Colors.deepOrange),
+                color: Theme.of(context).primaryColor),
           )
         ],
       ),

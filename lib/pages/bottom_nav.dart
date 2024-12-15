@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test1/pages/account_page.dart';
 import 'package:test1/pages/favorite_page.dart';
 import 'package:test1/pages/home_page.dart';
 
@@ -20,9 +21,7 @@ class _BottomNavState extends State<BottomNav> {
   List<Widget> bodyOptions = [
     const HomePage(),
     const FavoritePage(),
-    const Center(
-      child: Text('Account page'),
-    )
+    const AccountPage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,7 @@ class _BottomNavState extends State<BottomNav> {
         ],
         currentIndex: selectedIndex,
         onTap: (index) => onItemTapped(index),
-        selectedItemColor: Colors.deepOrange,
+        //selectedItemColor: Colors.deepOrange,
       ),
     );
   }

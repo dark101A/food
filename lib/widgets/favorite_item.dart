@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:test1/models/food_item.dart';
 
-class FavoriteItem extends StatelessWidget {
+class FavoriteItem extends StatefulWidget {
   final FoodItem foodItem;
-  const FavoriteItem({super.key, required this.foodItem});
+  final Function voidCallback;
+  const FavoriteItem(
+      {super.key, required this.foodItem, required this.voidCallback});
+
+  @override
+  State<FavoriteItem> createState() => _FavoriteItemState();
+}
+
+class _FavoriteItemState extends State<FavoriteItem> {
+  late bool isFav;
+
+  @override
+  void initState() {
+    super.initState();
+    isFav = widget.foodItem.isFavorite;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +27,7 @@ class FavoriteItem extends StatelessWidget {
       child: Row(
         children: [
           Image.network(
-            foodItem.imgUrl,
+            widget.foodItem.imgUrl,
             height: 70,
             width: 70,
             fit: BoxFit.contain,
@@ -25,21 +40,36 @@ class FavoriteItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  foodItem.name,
+                  widget.foodItem.name,
                   style: const TextStyle(
                       fontSize: 24, fontWeight: FontWeight.w400),
                 ),
                 Text(
-                  '\$${foodItem.price}',
-                  style: const TextStyle(
+                  '\$${widget.foodItem.price}',
+                  style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w400,
-                      color: Colors.deepOrange),
+                      color: Theme.of(context).primaryColor),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.favorite)
+          IconButton(
+            onPressed: () {
+              setState(() {
+                food.firstWhere((f) => f.id == widget.foodItem.id).isFavorite =
+                    !isFav;
+
+                isFav = !isFav;
+                widget.voidCallback();
+              });
+            },
+            icon: Icon(
+              Icons.favorite,
+              color: Theme.of(context).primaryColor,
+              size: 30,
+            ),
+          )
         ],
       ),
     );
