@@ -1,75 +1,144 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test1/models/food_item.dart';
+import 'package:test1/utilities/app_assets.dart';
 
-class FavoriteItem extends StatefulWidget {
-  final FoodItem foodItem;
-  final Function voidCallback;
-  const FavoriteItem(
-      {super.key, required this.foodItem, required this.voidCallback});
+class AccountPage extends StatelessWidget {
+  const AccountPage({super.key});
 
-  @override
-  State<FavoriteItem> createState() => _FavoriteItemState();
-}
+  Widget orderVoucherItem(BuildContext context,
+      {required String name, required int number}) {
+    return Column(
+      children: [
+        Text(
+          number.toString(),
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                color: Theme.of(context).primaryColor,
+              ),
+        ),
+        Text(
+          name,
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      ],
+    );
+  }
 
-class _FavoriteItemState extends State<FavoriteItem> {
-  late bool isFav;
+  Widget itemTappedTile(
+    BuildContext context, {
+    required String title,
+    String? subtitle,
+    required IconData icon,
+  }) {
+    final size = MediaQuery.of(context).size;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
-  @override
-  void initState() {
-    super.initState();
-    isFav = widget.foodItem.isFavorite;
+    return Platform.isAndroid
+        ? ListTile(
+            title: Text(title),
+            leading: Icon(
+              icon,
+              size: isLandscape ? size.height * 0.09 : size.height * 0.03,
+            ),
+            onTap: () => debugPrint('$title clicked!'),
+            subtitle: subtitle != null ? Text(subtitle) : null,
+            trailing: Icon(
+              Icons.chevron_right,
+              size: isLandscape ? size.height * 0.09 : size.height * 0.03,
+            ),
+          )
+        : CupertinoListTile(
+            title: Text(title),
+            leading: Icon(
+              icon,
+              color: Colors.deepOrange,
+              size: isLandscape ? size.height * 0.09 : size.height * 0.03,
+            ),
+            onTap: () => debugPrint('$title clicked!'),
+            subtitle: subtitle != null ? Text(subtitle) : null,
+            trailing: Icon(
+              CupertinoIcons.chevron_right,
+              color: Colors.deepOrange,
+              size: isLandscape ? size.height * 0.09 : size.height * 0.03,
+            ),
+          );
+  }
+
+  Widget personPhoto(double width, double height) {
+    return Container(
+      height: height,
+      width: width,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+          image: AssetImage(
+            AppAssets.profilePhoto,
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
-      child: Row(
+    final size = MediaQuery.of(context).size;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final nameText = Text(
+      'Abdo Gaber',
+      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+    );
+
+    return SingleChildScrollView(
+      child: Column(
         children: [
-          Image.network(
-            widget.foodItem.imgUrl,
-            height: 70,
-            width: 70,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(
-            width: 8.0,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          if (!isLandscape) ...[
+            personPhoto(size.width * 0.5, size.height * 0.25),
+            nameText,
+            const SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
-                  widget.foodItem.name,
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.w400),
+                orderVoucherItem(context, name: 'Orders', number: 50),
+                orderVoucherItem(context, name: 'Vouchers', number: 10),
+              ],
+            ),
+            const SizedBox(height: 24.0),
+          ],
+          if (isLandscape) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    personPhoto(size.width * 0.25, size.height * 0.5),
+                    const SizedBox(height: 8.0),
+                    nameText,
+                  ],
                 ),
-                Text(
-                  '\$${widget.foodItem.price}',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context).primaryColor),
+                Column(
+                  children: [
+                    orderVoucherItem(context, name: 'Orders', number: 50),
+                    const SizedBox(height: 16.0),
+                    orderVoucherItem(context, name: 'Vouchers', number: 10),
+                  ],
                 ),
               ],
             ),
-          ),
-          IconButton(
-            onPressed: () {
-              setState(() {
-                food.firstWhere((f) => f.id == widget.foodItem.id).isFavorite =
-                    !isFav;
-
-                isFav = !isFav;
-                widget.voidCallback();
-              });
-            },
-            icon: Icon(
-              Icons.favorite,
-              color: Theme.of(context).primaryColor,
-              size: 30,
-            ),
-          )
+          ],
+          const Divider(),
+          itemTappedTile(context,
+              title: 'Past Orders', icon: Icons.shopping_cart),
+          const Divider(),
+          itemTappedTile(context,
+              title: 'Available Vouchers', icon: Icons.card_giftcard),
+          const Divider(),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test1/pages/bottom_nav.dart';
+import 'package:test1/pages/bottom_navbar.dart';
+import 'package:test1/pages/food_details_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -8,18 +9,34 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Foodak - Food Delivery',
       theme: ThemeData(
-          primarySwatch: Colors.deepOrange,
-          iconTheme: const IconThemeData(color: Colors.deepOrange),
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            selectedItemColor: Colors.deepOrange,
-          )),
-      home: const BottomNav(),
+        primarySwatch: Colors.deepOrange,
+        scaffoldBackgroundColor: Colors.grey[100],
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey[100],
+          foregroundColor: Colors.black,
+          elevation: 0,
+        ),
+        dividerTheme: const DividerThemeData(
+          thickness: 2,
+          indent: 20,
+          endIndent: 20,
+        ),
+        listTileTheme: const ListTileThemeData(
+          iconColor: Colors.deepOrange,
+        ),
+        fontFamily: 'OpenSans',
+      ),
+      routes: {
+        '/': (context) => const BottomNavBarPage(),
+        FoodDetailsPage.routeName: (context) => const FoodDetailsPage(),
+      },
     );
   }
 }

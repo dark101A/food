@@ -1,77 +1,100 @@
 class FoodItem {
-  final int id;
+  final String id;
   final String name;
   final String imgUrl;
   final double price;
-  bool isFavorite;
+  final bool isFavorite;
+  final String categoryId;
 
-  FoodItem({
+  const FoodItem({
     required this.id,
     required this.name,
     required this.imgUrl,
     required this.price,
+    required this.categoryId,
     this.isFavorite = false,
   });
 
   FoodItem copyWith({
+    String? id,
     String? name,
     String? imgUrl,
     double? price,
-    bool? isFivorate,
+    bool? isFavorite,
+    String? categoryId,
   }) {
     return FoodItem(
-      id: id,
+      id: id ?? this.id,
       name: name ?? this.name,
       imgUrl: imgUrl ?? this.imgUrl,
       price: price ?? this.price,
-      isFavorite: isFivorate ?? this.isFavorite,
+      isFavorite: isFavorite ?? this.isFavorite,
+      categoryId: categoryId ?? this.categoryId,
     );
   }
 }
 
 List<FoodItem> food = [
-  FoodItem(
-    id: 1,
+  const FoodItem(
+    id: 'burger 1',
     name: 'Beef Burger',
     imgUrl:
-        'https://t4.ftcdn.net/jpg/09/88/67/35/360_F_988673577_IqsqmCDffOHPCw39TBD888DCtK3Kpdq0.jpg',
-    price: 50,
+        'https://www.freepnglogos.com/uploads/burger-png/download-hamburger-burger-png-image-png-image-pngimg-15.png',
+    price: 8.5,
+    categoryId: '1',
   ),
-  FoodItem(
-      id: 2,
-      name: 'Chicken Burger',
-      imgUrl:
-          'https://static.vecteezy.com/system/resources/previews/046/955/491/non_2x/grilled-cheeseburger-meal-icon-isolated-vector.jpg',
-      price: 70),
-  FoodItem(
-    id: 3,
-    name: 'cheese Burger',
+  const FoodItem(
+    id: 'burger 2',
+    name: 'Chicken Burger',
+    imgUrl: 'https://www.pngarts.com/files/3/Chicken-Burger-PNG-Photo.png',
+    price: 8.5,
+    categoryId: '1',
+  ),
+  const FoodItem(
+    id: 'burger 3',
+    name: 'Cheese Burger',
+    imgUrl: 'https://www.pngarts.com/files/3/Chicken-Burger-PNG-Photo.png',
+    price: 8,
+    categoryId: '1',
+  ),
+  const FoodItem(
+    id: 'pizza 1',
+    name: 'Chicken Pizza',
     imgUrl:
-        'https://img.freepik.com/premium-vector/cheese-burger-vector-illustration-fast-food-icon-sign-symbol_752732-84.jpg',
-    price: 80,
+        'https://graficsea.com/wp-content/uploads/2021/12/Chicken-Supreme-Pizza-.png',
+    price: 9,
+    categoryId: '2',
   ),
-  FoodItem(
-      id: 4,
-      name: 'chicken pizza',
-      imgUrl:
-          'https://img.freepik.com/premium-vector/realistic-pizza-vector-illustration-concept_1253202-57553.jpg?semt=ais_hybrid',
-      price: 90),
-  FoodItem(
-      id: 5,
-      name: 'cheese pizza',
-      imgUrl:
-          'https://st2.depositphotos.com/3687485/9049/v/450/depositphotos_90493358-stock-illustration-pizza-flat-icon-isolated-on.jpg',
-      price: 100),
-  FoodItem(
-      id: 6,
-      name: 'meat pizza',
-      imgUrl:
-          'https://img.freepik.com/premium-vector/salami-meat-pizza-icon-flat-illustration-salami-meat-pizza-vector-icon-web-design_98396-15541.jpg',
-      price: 60),
-  FoodItem(
-      id: 7,
-      name: 'pasta',
-      imgUrl:
-          'https://static.vecteezy.com/system/resources/previews/024/247/515/non_2x/pasta-icon-in-illustration-vector.jpg',
-      price: 150),
+  const FoodItem(
+    id: 'pasta 1',
+    name: 'Pasta',
+    imgUrl:
+        'https://www.pngall.com/wp-content/uploads/2018/04/Pasta-PNG-Image.png',
+    price: 7,
+    categoryId: '3',
+  ),
+  const FoodItem(
+    id: 'pasta 2',
+    name: 'Pasta2',
+    imgUrl:
+        'https://www.pngall.com/wp-content/uploads/2018/04/Pasta-PNG-Image.png',
+    price: 7,
+    categoryId: '4',
+  ),
+  const FoodItem(
+    id: 'pasta 3',
+    name: 'Pasta3',
+    imgUrl:
+        'https://www.pngall.com/wp-content/uploads/2018/04/Pasta-PNG-Image.png',
+    price: 7,
+    categoryId: '5',
+  ),
+  const FoodItem(
+    id: 'pasta 4',
+    name: 'Pasta4',
+    imgUrl:
+        'https://www.pngall.com/wp-content/uploads/2018/04/Pasta-PNG-Image.png',
+    price: 7,
+    categoryId: '6',
+  ),
 ];

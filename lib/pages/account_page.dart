@@ -1,107 +1,146 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:test1/utilities/app_assets.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
-  Widget titelItem({
-    required String titel,
-    required String? subtitel,
-    required IconData icon,
-  }) {
-    return ListTile(
-      title: Text(titel),
-      leading: Icon(
-        icon,
-        size: 35,
-        color: Colors.deepOrange,
-      ),
-      subtitle: subtitel != null ? Text(subtitel) : null,
-      trailing: const Icon(
-        Icons.chevron_right,
-        color: Colors.deepOrange,
-        size: 30,
-      ),
-    );
-  }
 
-  Widget OrdersVouchers({
-    required String name,
-    required int number,
-  }) {
+  Widget orderVoucherItem(BuildContext context,
+      {required String name, required int number}) {
     return Column(
       children: [
         Text(
           number.toString(),
-          style: const TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w600,
-              color: Colors.deepOrange),
+          style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+                color: Theme.of(context).primaryColor,
+              ),
         ),
         Text(
           name,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-        )
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
       ],
+    );
+  }
+
+  Widget itemTappedTile(
+    BuildContext context, {
+    required String title,
+    String? subtitle,
+    required IconData icon,
+  }) {
+    final size = MediaQuery.of(context).size;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    return Platform.isAndroid
+        ? ListTile(
+            title: Text(title),
+            leading: Icon(
+              icon,
+              size: isLandscape ? size.height * 0.09 : size.height * 0.03,
+            ),
+            onTap: () => debugPrint('$title clicked!'),
+            subtitle: subtitle != null ? Text(subtitle) : null,
+            trailing: Icon(
+              Icons.chevron_right,
+              size: isLandscape ? size.height * 0.09 : size.height * 0.03,
+            ),
+          )
+        : CupertinoListTile(
+            title: Text(title),
+            leading: Icon(
+              icon,
+              color: Colors.deepOrange,
+              size: isLandscape ? size.height * 0.09 : size.height * 0.03,
+            ),
+            onTap: () => debugPrint('$title clicked!'),
+            subtitle: subtitle != null ? Text(subtitle) : null,
+            trailing: Icon(
+              CupertinoIcons.chevron_right,
+              color: Colors.deepOrange,
+              size: isLandscape ? size.height * 0.09 : size.height * 0.03,
+            ),
+          );
+  }
+
+  Widget personPhoto(double width, double height) {
+    return Container(
+      height: height,
+      width: width,
+      decoration: const BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+          image: AssetImage(
+            AppAssets.profilePhoto,
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Center(
-          child: Container(
-            height: 250,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                  image: AssetImage('assets/images/a.jpg'),
-                  fit: BoxFit.contain),
-            ),
+    final size = MediaQuery.of(context).size;
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final nameText = Text(
+      'Tarek Alabd',
+      style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+            fontWeight: FontWeight.w600,
           ),
-        ),
-        const SizedBox(
-          height: 8.0,
-        ),
-        const Text(
-          "Abdo Gaber",
-          style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            OrdersVouchers(name: 'Orders', number: 50),
-            OrdersVouchers(name: 'Vouchers', number: 10),
+    );
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          if (!isLandscape) ...[
+            personPhoto(size.width * 0.5, size.height * 0.25),
+            nameText,
+            const SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                orderVoucherItem(context, name: 'Orders', number: 50),
+                orderVoucherItem(context, name: 'Vouchers', number: 10),
+              ],
+            ),
+            const SizedBox(height: 24.0),
           ],
-        ),
-        const SizedBox(
-          height: 24.0,
-        ),
-        const Divider(
-          thickness: 2,
-          indent: 20,
-          endIndent: 20,
-        ),
-        titelItem(
-          titel: 'Past Orders',
-          icon: Icons.shopping_cart,
-          subtitel: '',
-        ),
-        const Divider(
-          thickness: 2,
-          indent: 20,
-          endIndent: 20,
-        ),
-        titelItem(
-          titel: 'Avallable Vouchers',
-          icon: Icons.card_travel_sharp,
-          subtitel: '',
-        ),
-        const Divider(
-          thickness: 2,
-          indent: 20,
-          endIndent: 20,
-        ),
-      ],
+          if (isLandscape) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Column(
+                  children: [
+                    personPhoto(size.width * 0.25, size.height * 0.5),
+                    const SizedBox(height: 8.0),
+                    nameText,
+                  ],
+                ),
+                Column(
+                  children: [
+                    orderVoucherItem(context, name: 'Orders', number: 50),
+                    const SizedBox(height: 16.0),
+                    orderVoucherItem(context, name: 'Vouchers', number: 10),
+                  ],
+                ),
+              ],
+            ),
+          ],
+          const Divider(),
+          itemTappedTile(context,
+              title: 'Past Orders', icon: Icons.shopping_cart),
+          const Divider(),
+          itemTappedTile(context,
+              title: 'Available Vouchers', icon: Icons.card_giftcard),
+          const Divider(),
+        ],
+      ),
     );
   }
 }
